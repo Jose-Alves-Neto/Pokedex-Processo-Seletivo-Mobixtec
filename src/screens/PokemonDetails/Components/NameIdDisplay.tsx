@@ -2,17 +2,23 @@ import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
 export const NameIdDisplay = ({name, id}) => {
+  const index = id.toString();
+
   return (
-    <View style={{flexDirection: 'row'}}>
+    <View style={styles.container}>
       <Text style={styles.name}>{name}</Text>
       <View>
-        <Text style={styles.id}>{id}</Text>
+        <Text style={styles.id}>{'#' + index.padStart(3, '0')}</Text>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
   name: {
     fontSize: 24,
     fontWeight: 'bold',

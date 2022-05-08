@@ -33,11 +33,25 @@ const App = () => {
     <QueryClientProvider client={queryClient}>
       <PaperProvider>
         <NavigationContainer>
-          <stack.Navigator>
+          <stack.Navigator initialRouteName="Home">
             <stack.Screen
-              name={'Home'}
+              name="Home"
+              component={Home}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <stack.Screen
+              name="PokemonList"
+              component={PokemonList}
+              options={{
+                headerShown: false,
+              }}
+            />
+            <stack.Screen
+              name={'Details'}
               component={Details}
-              options={{headerShown: false}}
+              options={{headerShown: true}}
             />
           </stack.Navigator>
         </NavigationContainer>

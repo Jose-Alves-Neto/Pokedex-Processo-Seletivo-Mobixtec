@@ -27,6 +27,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     marginBottom: 70,
     marginTop: 10,
+    marginRight: 10,
   },
   typeText: {textTransform: 'capitalize', color: 'white'},
 });
