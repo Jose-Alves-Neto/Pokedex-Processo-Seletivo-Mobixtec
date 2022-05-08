@@ -6,21 +6,22 @@ import {
   Image,
   ImageBackground,
   ScrollView,
+  SafeAreaView,
 } from 'react-native';
 import background from 'Processo/assets/background/background.png';
 import {LoginBox} from './Components/LoginBox';
 import {Logo} from './Components/Logo';
 
-export const Home = navigation => {
+export const Home = ({navigation}) => {
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <ImageBackground source={background} style={styles.background}>
         <ScrollView>
           <Logo />
-          <LoginBox />
+          <LoginBox navigation={navigation} />
         </ScrollView>
       </ImageBackground>
-    </View>
+    </SafeAreaView>
   );
 };
 

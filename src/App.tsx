@@ -19,7 +19,11 @@ import {
   useColorScheme,
   View,
 } from 'react-native';
-import {Drawer, Provider as PaperProvider} from 'react-native-paper';
+import {
+  DefaultTheme,
+  Drawer,
+  Provider as PaperProvider,
+} from 'react-native-paper';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {Home} from './screens/HomeScreen';
 import {Details} from './screens/PokemonDetails';
@@ -28,10 +32,19 @@ import {PokemonList} from './screens/PokemonList';
 const queryClient = new QueryClient();
 const stack = createNativeStackNavigator();
 
+const theme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    text: 'rgba(0, 0, 0, 0.87)',
+    underlineColor: 'transparent',
+  },
+};
+
 const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
-      <PaperProvider>
+      <PaperProvider theme={theme}>
         <NavigationContainer>
           <stack.Navigator initialRouteName="Home">
             <stack.Screen

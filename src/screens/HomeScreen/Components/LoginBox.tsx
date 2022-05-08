@@ -1,32 +1,43 @@
-import React from 'react';
-import {View, Text, StyleSheet, Pressable, Image} from 'react-native';
+import React, {useEffect} from 'react';
+import {View, Text, StyleSheet, Pressable, Image, Alert} from 'react-native';
 import eye from 'Processo/assets/icons/eye.png';
 import {Button, TextInput} from 'react-native-paper';
-import {useMutation, useQuery} from 'react-query';
+import {useMutation} from 'react-query';
+import AsyncStorage from '@react-native-community/async-storage';
+import {useNavigation} from '@react-navigation/native';
 
-export const LoginBox = () => {
+export const LoginBox = ({navigation}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+  const [token, setToken] = React.useState('');
   const [hidePassword, setHidePassword] = React.useState(true);
 
-  const verification = useMutation(
-    (verify: {email: string; password: string}) => {
-      return fetch('https://reqres.in/api/login', {
+  useEffect(() => {
+    isLoggedIn(navigation);
+  }, []);
+
+  const mutation = useMutation(
+    async (verify: {email: string; password: string}) => {
+      const res = await fetch('https://reqres.in/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email: verify.email,
-          password: password,
+          password: verify.password,
         }),
-      })
-        .then(res => res.json())
-        .catch(err => {
-          console.log(err);
-        });
+      });
+      const data = await res.json();
+      AsyncStorage.setItem('token', JSON.stringify(data));
+      setToken(data);
+      return data;
     },
   );
+
+  if (!mutation.isLoading && token) {
+    navigation.navigate('PokemonList');
+  }
 
   return (
     <View style={styles.loginBox}>
@@ -65,12 +76,20 @@ export const LoginBox = () => {
         <Button
           mode="contained"
           color="#2E6EB5"
-          onPress={() => verification.mutate({email, password})}>
+          onPress={() => mutation.mutate({email, password})}>
           Login
         </Button>
       </View>
     </View>
   );
+};
+
+const isLoggedIn = async navigation => {
+  let token = await AsyncStorage.getItem('token');
+  token = JSON.parse(token);
+  if (token) {
+    navigation.navigate('PokemonList');
+  }
 };
 
 const styles = StyleSheet.create({
@@ -104,22 +123,25 @@ const styles = StyleSheet.create({
     paddingBottom: 20,
   },
   textInputContainer: {
+    marginTop: 12,
     borderBottomWidth: 2,
     borderBottomColor: '#1554F6',
-    marginTop: 12,
   },
   textInput: {
-    backgroundColor: 'rgba(51, 51, 51, 0.06)',
-    color: 'rgba(0, 0, 0, 0.87)',
     marginBottom: 12,
     borderTopLeftRadius: 10,
     borderTopRightRadius: 10,
+    color: 'rgba(0, 0, 0, 0.87)',
+    backgroundColor: 'rgba(51, 51, 51, 0.06)',
   },
   visibilityIcon: {
     position: 'absolute',
     top: 0,
     right: 0,
-    padding: 15,
+    paddingTop: 25,
+    paddingRight: 20,
+    paddingBottom: 25,
+    paddingLeft: 20,
   },
   button: {
     borderRadius: 5,
