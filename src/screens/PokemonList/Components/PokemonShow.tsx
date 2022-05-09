@@ -3,7 +3,7 @@ import React from 'react';
 import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
 import {useQuery} from 'react-query';
 import getColorByPokemonType from '../../../utils/GetColorByPokemonType';
-import {Details} from '../../PokemonDetails';
+import ditto from 'Processo/assets/placeholder/amoeba_placeholder.png';
 
 export type PokemonJson = {
   pokemon: {
@@ -20,16 +20,16 @@ const PokemonShow: React.FC<PokemonJson> = ({pokemon: {name, url}}) => {
     index +
     '.png';
   const {data, isLoading} = useQuery(index, fetchPoke);
-
+  const nav = useNavigation();
   if (isLoading) {
     return (
       <View style={styles.card}>
+        <Image style={styles.image} source={ditto} />
         <Card />
       </View>
     );
   }
 
-  const nav = useNavigation();
   return (
     <View>
       <Pressable
@@ -47,9 +47,10 @@ const PokemonShow: React.FC<PokemonJson> = ({pokemon: {name, url}}) => {
 const Card = ({name = 'Loading...', type = 'normal'}) => {
   return (
     <View
-      style={Object.assign({}, styles.container, {
-        backgroundColor: getColorByPokemonType(type),
-      })}>
+      style={[
+        styles.container,
+        {backgroundColor: getColorByPokemonType(type)},
+      ]}>
       <View style={styles.textContainer}>
         <Text style={styles.text}>{name}</Text>
       </View>

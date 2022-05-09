@@ -2,10 +2,9 @@ import React from 'react';
 import {View, Text, FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useInfiniteQuery} from 'react-query';
-import {FilterModal} from './Components/FilterModal';
 import {Logo} from './Components/Logo';
-import {PokemonCard, PokemonJson} from './Components/PokemonShow';
-import {PokeSearch} from './Components/SearchBar';
+import {PokemonCard} from './Components/PokemonShow';
+import {PokeSearch} from './Components/PokeSearch';
 
 export const PokemonList: React.FC<any> = () => {
   const {data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage} =
@@ -28,7 +27,6 @@ export const PokemonList: React.FC<any> = () => {
       fetchNextPage();
     }
   };
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <Logo />
@@ -38,7 +36,6 @@ export const PokemonList: React.FC<any> = () => {
           flexDirection: 'row',
           alignSelf: 'center',
         }}>
-        {/* Change for flatlist to save memory */}
         <FlatList
           style={{paddingLeft: 40, paddingRight: 40, paddingBottom: 20}}
           numColumns={2}

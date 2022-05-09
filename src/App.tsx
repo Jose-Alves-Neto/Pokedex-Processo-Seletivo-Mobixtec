@@ -26,6 +26,7 @@ const theme = {
     ...DefaultTheme.colors,
     text: 'rgba(0, 0, 0, 0.87)',
     underlineColor: 'transparent',
+    primary: '#1554F6',
   },
 };
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import {Modal, View, StyleSheet, Text, Image} from 'react-native';
-import {Button, RadioButton} from 'react-native-paper';
+import {Button} from 'react-native-paper';
+import {RadioButton} from './RadioButtonCustom';
 import close from 'Processo/assets/icons/Close.png';
 
 const filterValues = [
@@ -24,18 +25,21 @@ const filterValues = [
   {label: 'Fairy', value: 'fairy'},
 ];
 
-export const FilterModal = ({visible, onClose, children}) => {
-  const [checked, setChecked] = React.useState('all');
+export const FilterModal = ({visible, onClose, initialValue, onApply}: any) => {
+  const applyHandler = (filter: string[] = []) => {
+    onApply(filter);
+    onClose();
+  };
+
   return (
     <Modal visible={visible} transparent={true}>
       <View style={styles.container}>
         <View style={styles.content}>
-          {children}
           <View style={{flexDirection: 'row', alignItems: 'baseline'}}>
             <Text style={{color: 'black', fontSize: 24, fontWeight: '700'}}>
-              Filtros
+              Filtro
             </Text>
-            <Button mode="text" onPress={onClose} compact={true}>
+            <Button mode="text" onPress={() => applyHandler()} compact={true}>
               <Text
                 style={{
                   textTransform: 'none',
@@ -58,6 +62,12 @@ export const FilterModal = ({visible, onClose, children}) => {
             <Text style={{color: '#3F3F3F', marginTop: 25, fontSize: 16}}>
               Tipo
             </Text>
+
+            <RadioButton
+              data={filterValues}
+              initialValue={initialValue}
+              onApply={applyHandler}
+            />
           </View>
         </View>
       </View>

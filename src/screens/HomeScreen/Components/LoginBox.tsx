@@ -6,7 +6,11 @@ import {useMutation} from 'react-query';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
 
-export const LoginBox = ({navigation}) => {
+export const LoginBox = ({
+  navigation,
+}: {
+  navigation: {navigate: (arg0: string) => void};
+}) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [token, setToken] = React.useState('');
@@ -84,9 +88,9 @@ export const LoginBox = ({navigation}) => {
   );
 };
 
-const isLoggedIn = async navigation => {
+const isLoggedIn = async (navigation: {navigate: (arg0: string) => void}) => {
   let token = await AsyncStorage.getItem('token');
-  token = JSON.parse(token);
+  token = JSON.parse(token || '{}');
   if (token) {
     navigation.navigate('PokemonList');
   }
@@ -124,8 +128,6 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     marginTop: 12,
-    borderBottomWidth: 2,
-    borderBottomColor: '#1554F6',
   },
   textInput: {
     marginBottom: 12,

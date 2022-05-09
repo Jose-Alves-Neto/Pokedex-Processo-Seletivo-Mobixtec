@@ -18,9 +18,12 @@ export const PokemonDisplay: React.FC<PokeDisplayProps> = ({
         source={{uri: sprites.other.home.front_default}}
       />
       <View
-        style={Object.assign({}, styles.imageContainer, {
-          backgroundColor: getColorByPokemonType(types[0].type.name),
-        })}>
+        style={[
+          styles.imageContainer,
+          {
+            backgroundColor: getColorByPokemonType(types[0].type.name),
+          },
+        ]}>
         <View style={styles.textContainer}></View>
       </View>
     </View>

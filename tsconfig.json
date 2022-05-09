@@ -1,21 +1,17 @@
 {
   "compilerOptions": {
-    "baseUrl": "./src",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
-    "jsx": "react-native",
-    "lib": ["es2019"],
+    "jsx": "react",
+    "lib": ["es6"],
     "moduleResolution": "node",
     "noEmit": true,
     "strict": true,
-    "target": "esnext",
-    "checkJs": true
+    "target": "esnext"
   },
   "exclude": [
-    "dist",
-    "build",
     "node_modules",
     "babel.config.js",
     "metro.config.js",
