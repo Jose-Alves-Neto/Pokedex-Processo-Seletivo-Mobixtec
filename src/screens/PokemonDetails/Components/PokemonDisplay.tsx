@@ -1,5 +1,6 @@
 import React from 'react';
 import {View, Image, StyleSheet} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import getColorByPokemonType from '../../../utils/GetColorByPokemonType';
 
 interface PokeDisplayProps {
@@ -13,19 +14,15 @@ export const PokemonDisplay: React.FC<PokeDisplayProps> = ({
 }: PokeDisplayProps) => {
   return (
     <View style={{alignItems: 'center'}}>
+      <LinearGradient
+        useAngle={true}
+        angle={55}
+        style={styles.imageContainer}
+        colors={getColorByPokemonType(types[0].type.name)}></LinearGradient>
       <Image
         style={styles.image}
         source={{uri: sprites.other.home.front_default}}
       />
-      <View
-        style={[
-          styles.imageContainer,
-          {
-            backgroundColor: getColorByPokemonType(types[0].type.name),
-          },
-        ]}>
-        <View style={styles.textContainer}></View>
-      </View>
     </View>
   );
 };
@@ -41,7 +38,5 @@ const styles = StyleSheet.create({
     width: 280,
     height: 280,
     top: -100,
-    zIndex: 1,
   },
-  textContainer: {},
 });

@@ -5,28 +5,41 @@ import {RadioButton} from './RadioButtonCustom';
 import close from 'Processo/assets/icons/Close.png';
 
 const filterValues = [
-  {label: 'Todos', value: 'all'},
-  {label: 'Fire', value: 'fire'},
-  {label: 'Water', value: 'water'},
-  {label: 'Grass', value: 'grass'},
-  {label: 'Electric', value: 'electric'},
-  {label: 'Ice', value: 'ice'},
-  {label: 'Fighting', value: 'fighting'},
-  {label: 'Poison', value: 'poison'},
-  {label: 'Ground', value: 'ground'},
-  {label: 'Flying', value: 'flying'},
-  {label: 'Psychic', value: 'psychic'},
-  {label: 'Bug', value: 'bug'},
-  {label: 'Rock', value: 'rock'},
-  {label: 'Ghost', value: 'ghost'},
-  {label: 'Dragon', value: 'dragon'},
-  {label: 'Dark', value: 'dark'},
-  {label: 'Steel', value: 'steel'},
-  {label: 'Fairy', value: 'fairy'},
+  {label: '0', value: 'all'},
+  {label: '1', value: 'normal'},
+  {label: '2', value: 'fighting'},
+  {label: '3', value: 'flying'},
+  {label: '4', value: 'poison'},
+  {label: '5', value: 'ground'},
+  {label: '6', value: 'rock'},
+  {label: '7', value: 'bug'},
+  {label: '8', value: 'ghost'},
+  {label: '9', value: 'steel'},
+  {label: '10', value: 'fire'},
+  {label: '11', value: 'water'},
+  {label: '12', value: 'grass'},
+  {label: '13', value: 'electric'},
+  {label: '14', value: 'psychic'},
+  {label: '15', value: 'ice'},
+  {label: '16', value: 'dragon'},
+  {label: '17', value: 'dark'},
+  {label: '18', value: 'fairy'},
 ];
 
-export const FilterModal = ({visible, onClose, initialValue, onApply}: any) => {
-  const applyHandler = (filter: string[] = []) => {
+interface Props {
+  visible: boolean;
+  onClose: () => void;
+  initialValue: string;
+  onApply: (filter: string) => void;
+}
+
+export const FilterModal: React.FC<Props> = ({
+  visible,
+  onClose,
+  initialValue,
+  onApply,
+}) => {
+  const applyHandler = (filter: string = 'all'): void => {
     onApply(filter);
     onClose();
   };
@@ -59,7 +72,7 @@ export const FilterModal = ({visible, onClose, initialValue, onApply}: any) => {
             </Button>
           </View>
           <View>
-            <Text style={{color: '#3F3F3F', marginTop: 25, fontSize: 16}}>
+            <Text style={{color: '#3F3F3F', marginTop: 0, fontSize: 16}}>
               Tipo
             </Text>
 

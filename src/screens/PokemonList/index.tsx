@@ -1,14 +1,16 @@
 import React from 'react';
-import {View, Text, FlatList} from 'react-native';
+import {View, Text, FlatList, StyleSheet} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useInfiniteQuery} from 'react-query';
 import {Logo} from './Components/Logo';
-import {PokemonCard} from './Components/PokemonShow';
+import {PokemonCard} from './Components/PokemonCard';
 import {PokeSearch} from './Components/PokeSearch';
 
 export const PokemonList: React.FC<any> = () => {
+  const [filterValues, setFilterValues]: [string, Function] =
+    React.useState('All');
   const {data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage} =
-    useInfiniteQuery('pokemon', fetchPokemon, {
+    useInfiniteQuery(['pokemon', filterValues], fetchPokemon, {
       getNextPageParam: lastPage => {
         if (lastPage.next !== null) {
           return lastPage.next;
@@ -17,6 +19,10 @@ export const PokemonList: React.FC<any> = () => {
         return lastPage;
       },
     });
+
+  const onApply = (value: string) => {
+    setFilterValues(value);
+  };
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -27,27 +33,21 @@ export const PokemonList: React.FC<any> = () => {
       fetchNextPage();
     }
   };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <Logo />
-      <PokeSearch />
-      <View
-        style={{
-          flexDirection: 'row',
-          alignSelf: 'center',
-        }}>
+      <PokeSearch initialValue={filterValues} onApply={onApply} />
+      <View style={styles.container}>
         <FlatList
-          style={{paddingLeft: 40, paddingRight: 40, paddingBottom: 20}}
+          style={styles.list}
           numColumns={2}
           onEndReached={loadMore}
           onEndReachedThreshold={0.4}
           keyExtractor={item => item.name}
           data={data?.pages.map(page => page.response).flat()}
           renderItem={renderItem}
-          contentContainerStyle={{
-            paddingBottom: 200,
-            justifyContent: 'space-evenly',
-          }}
+          contentContainerStyle={styles.contenteList}
         />
       </View>
     </SafeAreaView>
@@ -65,3 +65,19 @@ const fetchPokemon = async ({
   const {results, next} = await request.json();
   return {response: results, next: next};
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flexDirection: 'row',
+    alignSelf: 'center',
+  },
+  contenteList: {
+    paddingBottom: 200,
+    justifyContent: 'space-evenly',
+  },
+  list: {
+    paddingLeft: 40,
+    paddingRight: 40,
+    paddingBottom: 20,
+  },
+});

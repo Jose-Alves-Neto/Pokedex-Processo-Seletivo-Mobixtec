@@ -1,7 +1,12 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 
-export const NameIdDisplay = ({name, id}) => {
+interface Props {
+  name: string;
+  id: string;
+}
+
+export const NameIdDisplay: React.FC<Props> = ({name, id}) => {
   const index = id.toString();
 
   return (

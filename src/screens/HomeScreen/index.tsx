@@ -9,7 +9,11 @@ import background from 'Processo/assets/background/background.png';
 import {LoginBox} from './Components/LoginBox';
 import {Logo} from './Components/Logo';
 
-export const Home = ({navigation}) => {
+interface Props {
+  navigation: {navigate: (arg0: string) => void};
+}
+
+export const Home: React.FC<Props> = ({navigation}) => {
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground source={background} style={styles.background}>

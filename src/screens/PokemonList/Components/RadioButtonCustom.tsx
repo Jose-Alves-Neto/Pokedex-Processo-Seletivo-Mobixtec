@@ -2,20 +2,28 @@ import React from 'react';
 import {View, Text, Pressable, StyleSheet, ScrollView} from 'react-native';
 import {Button} from 'react-native-paper';
 
-export const RadioButton = ({data, initialValue, onApply}: any) => {
+interface PropsRadioButtonCustom {
+  data: {label: string; value: string}[];
+  initialValue: string;
+  onApply: (filter: string) => void;
+}
+
+export const RadioButton: React.FC<PropsRadioButtonCustom> = ({
+  data,
+  initialValue,
+  onApply,
+}) => {
   const [filterSelection, setFilterSelection] = React.useState(initialValue);
 
   const selectHandler = (value: string): void => {
-    if (filterSelection.includes(value)) {
-      setFilterSelection(
-        filterSelection.filter((item: string) => item !== value),
-      );
+    if (filterSelection == value) {
+      setFilterSelection('all');
     } else {
-      setFilterSelection([...filterSelection, value]);
+      setFilterSelection(value);
     }
   };
 
-  const applyHandler = () => {
+  const applyHandler = (): void => {
     onApply(filterSelection);
   };
 
@@ -27,7 +35,7 @@ export const RadioButton = ({data, initialValue, onApply}: any) => {
           flexWrap: 'wrap',
           justifyContent: 'space-evenly',
         }}>
-        {data.map(item => {
+        {data.map((item: {value: string}) => {
           return (
             <Pressable
               key={item.value}
@@ -55,14 +63,14 @@ export const RadioButton = ({data, initialValue, onApply}: any) => {
   );
 };
 
-const selectionContainerStyle = (filterSelection: string[], value: string) => {
+const selectionContainerStyle = (filterSelection: string, value: string) => {
   if (filterSelection.includes(value)) {
     return [styles.container, styles.containerSelected];
   }
   return [styles.container, styles.containerUnselected];
 };
 
-const selectionTextStyle = (filterSelection: string[], value: string) => {
+const selectionTextStyle = (filterSelection: string, value: string) => {
   if (filterSelection.includes(value)) {
     return [styles.text, styles.textSelected];
   }
@@ -72,7 +80,8 @@ const selectionTextStyle = (filterSelection: string[], value: string) => {
 const styles = StyleSheet.create({
   container: {
     margin: 6,
-    padding: 10,
+    paddingVertical: 8,
+    paddingHorizontal: 10,
     borderRadius: 10,
   },
   containerUnselected: {

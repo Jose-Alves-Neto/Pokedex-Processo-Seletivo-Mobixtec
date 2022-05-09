@@ -3,39 +3,41 @@ import {View, StyleSheet, Text, FlatList, Image, Pressable} from 'react-native';
 import {Button} from 'react-native-paper';
 import closeFilter from 'Processo/assets/icons/CloseF.png';
 
-export const FilterCard = ({filter, onDelete}: any) => {
-  return (
-    <FlatList
-      data={filter}
-      horizontal={true}
-      renderItem={item => {
-        return renderFilterCard(item, onDelete);
-      }}
-      keyExtractor={item => item}
-    />
-  );
-};
+interface filterCardProps {
+  filter: string;
+  onDelete: (filter: string) => void;
+}
 
-const renderFilterCard = ({item}: any, onDelete: Function) => {
+export const FilterCard: React.FC<filterCardProps> = ({filter, onDelete}) => {
+  if (filter.length === 0) {
+    return null;
+  }
   return (
-    <View style={styles.filter}>
-      <Text style={styles.filterText}>{item}</Text>
-
-      <Pressable
-        style={{alignSelf: 'center', padding: 10}}
-        onPress={() => {
-          onDelete(item);
-        }}>
-        <Image source={closeFilter} style={{width: 16, height: 16}} />
-      </Pressable>
+    <View style={styles.container}>
+      <View style={styles.filter}>
+        <Text style={styles.filterText}>{filter}</Text>
+        <Pressable
+          style={{alignSelf: 'center', padding: 10}}
+          onPress={() => {
+            onDelete(filter);
+          }}>
+          <Image source={closeFilter} style={{width: 16, height: 16}} />
+        </Pressable>
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  filter: {
-    marginLeft: 20,
+  container: {
+    marginLeft: 30,
     marginTop: 20,
+    marginBottom: 10,
+    flexWrap: 'wrap',
+    justifyContent: 'space-evenly',
+    alignItems: 'center',
+  },
+  filter: {
     borderRadius: 10,
     flexDirection: 'row',
     backgroundColor: '#E5E5E5',
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
     textTransform: 'capitalize',
     fontSize: 14,
     color: 'black',
-    marginTop: 5,
+    alignSelf: 'center',
     marginBottom: 5,
     marginHorizontal: 8,
   },

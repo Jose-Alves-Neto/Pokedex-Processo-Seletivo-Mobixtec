@@ -6,11 +6,11 @@ import {useMutation} from 'react-query';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
 
-export const LoginBox = ({
-  navigation,
-}: {
+interface Props {
   navigation: {navigate: (arg0: string) => void};
-}) => {
+}
+
+export const LoginBox: React.FC<Props> = ({navigation}: Props) => {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [token, setToken] = React.useState('');

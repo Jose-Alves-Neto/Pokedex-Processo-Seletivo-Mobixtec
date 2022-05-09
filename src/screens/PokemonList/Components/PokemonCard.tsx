@@ -4,6 +4,7 @@ import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
 import {useQuery} from 'react-query';
 import getColorByPokemonType from '../../../utils/GetColorByPokemonType';
 import ditto from 'Processo/assets/placeholder/amoeba_placeholder.png';
+import LinearGradient from 'react-native-linear-gradient';
 
 export type PokemonJson = {
   pokemon: {
@@ -37,8 +38,8 @@ const PokemonShow: React.FC<PokemonJson> = ({pokemon: {name, url}}) => {
         onPress={() => {
           nav.navigate('Details', {url: url});
         }}>
-        <Image style={styles.image} source={{uri: pokemonImg}} />
         <Card name={name} type={data[0].type.name} />
+        <Image style={styles.image} source={{uri: pokemonImg}} />
       </Pressable>
     </View>
   );
@@ -46,15 +47,15 @@ const PokemonShow: React.FC<PokemonJson> = ({pokemon: {name, url}}) => {
 
 const Card = ({name = 'Loading...', type = 'normal'}) => {
   return (
-    <View
-      style={[
-        styles.container,
-        {backgroundColor: getColorByPokemonType(type)},
-      ]}>
+    <LinearGradient
+      useAngle={true}
+      angle={55}
+      colors={getColorByPokemonType(type)}
+      style={[styles.container]}>
       <View style={styles.textContainer}>
         <Text style={styles.text}>{name}</Text>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 
@@ -77,7 +78,6 @@ const styles = StyleSheet.create({
     width: 110,
     height: 110,
     top: -5,
-    zIndex: 1,
   },
   container: {
     width: 148,

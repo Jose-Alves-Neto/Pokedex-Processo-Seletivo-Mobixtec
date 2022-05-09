@@ -5,23 +5,27 @@ import vector from 'Processo/assets/icons/Vector.png';
 import {FilterModal} from './FilterModal';
 import {FilterCard} from './FilterCard';
 
-export const PokeSearch = () => {
+interface pokeSearchProps {
+  initialValue: string;
+  onApply: (filter: string) => void;
+}
+
+export const PokeSearch: React.FC<pokeSearchProps> = ({
+  initialValue,
+  onApply,
+}) => {
   const [searchQuery, setSearchQuery] = React.useState('');
   const [visibleFilters, setVisibleFilters] = React.useState(false);
-  const [filterValues, setFilterValues]: [string[], Function] = React.useState(
-    [],
-  );
 
-  const onChangeSearch = (query: React.SetStateAction<string>) =>
+  const onChangeSearch = (query: React.SetStateAction<string>): void =>
     setSearchQuery(query);
-  const onClose = () => setVisibleFilters(false);
-  const onApply = (value: string[]) => {
-    setFilterValues(value);
+  const onClose = (): void => setVisibleFilters(false);
+  const applyHandler = (value: string): void => {
+    onApply(value);
     setVisibleFilters(false);
   };
-  const onDelete = (value: string) => {
-    const newValues = filterValues.filter(item => item !== value);
-    setFilterValues(newValues);
+  const onDelete = (value: string): void => {
+    onApply('All');
   };
 
   return (
@@ -56,10 +60,10 @@ export const PokeSearch = () => {
           visible={visibleFilters}
           onClose={onClose}
           onApply={onApply}
-          initialValue={filterValues}
+          initialValue={initialValue}
         />
       </View>
-      <FilterCard filter={filterValues} onDelete={onDelete} />
+      <FilterCard filter={initialValue} onDelete={onDelete} />
     </View>
   );
 };

@@ -13,12 +13,12 @@ import {Image, Pressable, View} from 'react-native';
 
 import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {QueryClient, QueryClientProvider} from 'react-query';
+import {Route} from '.';
 import {Home} from './screens/HomeScreen';
 import {Details} from './screens/PokemonDetails';
 import {PokemonList} from './screens/PokemonList';
 
 const queryClient = new QueryClient();
-const stack = createNativeStackNavigator();
 
 const theme = {
   ...DefaultTheme,
@@ -34,31 +34,7 @@ const App = () => {
   return (
     <QueryClientProvider client={queryClient}>
       <PaperProvider theme={theme}>
-        <NavigationContainer>
-          <stack.Navigator initialRouteName="Home">
-            <stack.Screen
-              name="Home"
-              component={Home}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <stack.Screen
-              name="PokemonList"
-              component={PokemonList}
-              options={{
-                headerShown: false,
-              }}
-            />
-            <stack.Screen
-              name={'Details'}
-              component={Details}
-              options={{
-                headerShown: false,
-              }}
-            />
-          </stack.Navigator>
-        </NavigationContainer>
+        <Route />
       </PaperProvider>
     </QueryClientProvider>
   );

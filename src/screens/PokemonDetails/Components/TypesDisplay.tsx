@@ -1,18 +1,29 @@
 import React from 'react';
 import {View, StyleSheet, Text} from 'react-native';
+import LinearGradient from 'react-native-linear-gradient';
 import getColorByPokemonType from '../../../utils/GetColorByPokemonType';
 
-export const TypesDisplay = ({types}) => {
+interface Props {
+  types: {
+    type: {
+      name: string;
+    };
+  }[];
+}
+
+export const TypesDisplay: React.FC<Props> = ({types}) => {
   return (
     <View style={{flexDirection: 'row'}}>
-      {types.map((type, index) => (
-        <View
-          key={index}
-          style={Object.assign({}, styles.typeContainer, {
-            backgroundColor: getColorByPokemonType(type.type.name),
-          })}>
-          <Text style={styles.typeText}>{type.type.name}</Text>
-        </View>
+      {types.map(type => (
+        <LinearGradient
+          useAngle={true}
+          angle={55}
+          colors={getColorByPokemonType(type.type.name)}
+          style={[styles.typeContainer]}>
+          <View key={type.type.name}>
+            <Text style={styles.typeText}>{type.type.name}</Text>
+          </View>
+        </LinearGradient>
       ))}
     </View>
   );

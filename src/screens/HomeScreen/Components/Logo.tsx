@@ -2,7 +2,7 @@ import React from 'react';
 import {View, Image, StyleSheet} from 'react-native';
 import logo from 'Processo/assets/logo/logo.png';
 
-export const Logo = () => {
+export const Logo: React.FC<{}> = () => {
   return (
     <View style={styles.logo}>
       <Image source={logo} />

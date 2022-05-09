@@ -1,14 +1,11 @@
 import React from 'react';
 import {View, Text, SafeAreaView, Pressable, Image} from 'react-native';
-import {useQuery} from 'react-query';
+import {useQuery, useQueryClient} from 'react-query';
 import {NameIdDisplay} from './Components/NameIdDisplay';
 import {PokemonDisplay} from './Components/PokemonDisplay';
 import {TypesDisplay} from './Components/TypesDisplay';
 import {DescriptionDisplay} from './Components/DescriptionDisplay';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import back from 'Processo/assets/icons/Back.png';
-
-const Tab = createBottomTabNavigator();
 
 export const Details = (nav: any) => {
   const {navigation, route} = nav;

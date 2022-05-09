@@ -1,9 +1,11 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {Button} from 'react-native-paper';
+import {Evo} from '../screens/Evo';
 import {Sobre} from '../screens/Sobre';
+import {Stats} from '../screens/Stats';
 
-export const DescriptionDisplay = ({pokemon}) => {
+export const DescriptionDisplay = ({pokemon}: any) => {
   const [buttonPressed, setButtonPressed] = React.useState('1');
 
   return (
@@ -63,13 +65,13 @@ export const DescriptionDisplay = ({pokemon}) => {
   );
 };
 
-const renderDescription = (pokemon, buttonPressed: string) => {
+const renderDescription = (pokemon: any, buttonPressed: string) => {
   if (buttonPressed == '1') {
     return <Sobre pokemon={pokemon} />;
   } else if (buttonPressed == '2') {
-    return;
+    return <Stats pokemon={pokemon} />;
   } else if (buttonPressed == '3') {
-    return;
+    return <Evo />;
   }
 };
 
