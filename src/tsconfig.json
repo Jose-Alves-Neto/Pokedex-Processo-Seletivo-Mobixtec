@@ -1,20 +1,18 @@
 {
   "compilerOptions": {
-    "baseUrl": "./",
+    "baseUrl": "./src",
     "allowJs": true,
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "isolatedModules": true,
     "jsx": "react-native",
-    "lib": ["es2017"],
+    "lib": ["es2019"],
     "moduleResolution": "node",
     "noEmit": true,
     "strict": true,
     "target": "esnext",
-    "checkJs": true,
-    "typeRoots": ["./custom_typings"]
+    "checkJs": true
   },
-  "include": ["./custom_typings/global.d.tsx"],
   "exclude": [
     "dist",
     "build",

@@ -4,9 +4,10 @@ import {Button, Searchbar} from 'react-native-paper';
 import vector from 'Processo/assets/icons/Vector.png';
 import {FilterModal} from './FilterModal';
 
-export const PokeSearch = drawerNavigator => {
+export const PokeSearch = () => {
   const [searchQuery, setSearchQuery] = React.useState('');
-  const onChangeSearch = query => setSearchQuery(query);
+  const onChangeSearch = (query: React.SetStateAction<string>) =>
+    setSearchQuery(query);
   const [visibleFilters, setVisibleFilters] = React.useState(false);
 
   return (

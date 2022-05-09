@@ -29,16 +29,16 @@ export const PokemonDisplay: React.FC<PokeDisplayProps> = ({
 
 const styles = StyleSheet.create({
   imageContainer: {
-    width: '100%',
+    width: '90%',
     height: 190,
     borderRadius: 20,
-    zIndex: -1,
   },
   image: {
     position: 'absolute',
     width: 280,
     height: 280,
     top: -100,
+    zIndex: 1,
   },
   textContainer: {},
 });

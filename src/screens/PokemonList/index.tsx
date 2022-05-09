@@ -1,67 +1,64 @@
-import {createDrawerNavigator} from '@react-navigation/drawer';
-import {NavigationContainer} from '@react-navigation/native';
-import React, {Fragment, useEffect} from 'react';
-import {View, Text, ScrollView} from 'react-native';
+import React from 'react';
+import {View, Text, FlatList} from 'react-native';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {useInfiniteQuery} from 'react-query';
 import {FilterModal} from './Components/FilterModal';
 import {Logo} from './Components/Logo';
-import {PokemonCard} from './Components/PokemonShow';
+import {PokemonCard, PokemonJson} from './Components/PokemonShow';
 import {PokeSearch} from './Components/SearchBar';
 
-export const PokemonList: React.FC<any> = (
-  stackNavigation,
-  drawerNavigation,
-) => {
+export const PokemonList: React.FC<any> = () => {
   const {data, isLoading, fetchNextPage, hasNextPage, isFetchingNextPage} =
     useInfiniteQuery('pokemon', fetchPokemon, {
-      getNextPageParam: lastPage => lastPage.nextPage,
+      getNextPageParam: lastPage => {
+        if (lastPage.next !== null) {
+          return lastPage.next;
+        }
+
+        return lastPage;
+      },
     });
 
   if (isLoading) {
     return <Text>Loading...</Text>;
   }
 
+  const loadMore = () => {
+    if (hasNextPage) {
+      fetchNextPage();
+    }
+  };
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <Logo />
       <PokeSearch />
-      <ScrollView
-        style={{marginLeft: 30, marginRight: 30}}
-        onScroll={({nativeEvent}) => {
-          if (isCloseToBottom(nativeEvent) && hasNextPage) {
-            fetchNextPage();
-          }
+      <View
+        style={{
+          flexDirection: 'row',
+          alignSelf: 'center',
         }}>
-        <View
-          style={{
-            flexDirection: 'row',
-            flexWrap: 'wrap',
-            justifyContent: 'center',
-          }}>
-          {/* Change for flatlist to save memory */}
-          {data?.pages.map((group, i) => {
-            return (
-              <Fragment key={i}>
-                {group.response.map(data => (
-                  <PokemonCard key={data.name} pokemon={data} />
-                ))}
-              </Fragment>
-            );
-          })}
-        </View>
-        <View style={{padding: 30, alignItems: 'center'}}>
-          {isFetchingNextPage ? (
-            <Text style={{color: 'black'}}>Loading...</Text>
-          ) : null}
-        </View>
-      </ScrollView>
+        {/* Change for flatlist to save memory */}
+        <FlatList
+          style={{paddingLeft: 40, paddingRight: 40, paddingBottom: 20}}
+          numColumns={2}
+          onEndReached={loadMore}
+          onEndReachedThreshold={0.4}
+          keyExtractor={item => item.name}
+          data={data?.pages.map(page => page.response).flat()}
+          renderItem={renderItem}
+          contentContainerStyle={{
+            paddingBottom: 200,
+            justifyContent: 'space-evenly',
+          }}
+        />
+      </View>
     </SafeAreaView>
   );
 };
 
-const isCloseToBottom = ({layoutMeasurement, contentOffset, contentSize}) => {
-  return layoutMeasurement.height + contentOffset.y >= contentSize.height - 30;
+const renderItem = ({item}: any) => {
+  return <PokemonCard pokemon={item} />;
 };
 
 const fetchPokemon = async ({
@@ -69,5 +66,5 @@ const fetchPokemon = async ({
 }) => {
   const request = await fetch(pageParam);
   const {results, next} = await request.json();
-  return {response: results, nextPage: next};
+  return {response: results, next: next};
 };

@@ -24,6 +24,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: '#3f3f3f',
     alignSelf: 'flex-start',
+    textTransform: 'capitalize',
     flex: 1,
   },
   id: {

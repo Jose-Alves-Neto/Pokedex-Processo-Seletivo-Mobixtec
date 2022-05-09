@@ -6,24 +6,12 @@
  * @flow strict-local
  */
 
-import {createDrawerNavigator} from '@react-navigation/drawer';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-import {
-  DefaultTheme,
-  Drawer,
-  Provider as PaperProvider,
-} from 'react-native-paper';
+import {Image, Pressable, View} from 'react-native';
+
+import {DefaultTheme, Provider as PaperProvider} from 'react-native-paper';
 import {QueryClient, QueryClientProvider} from 'react-query';
 import {Home} from './screens/HomeScreen';
 import {Details} from './screens/PokemonDetails';
@@ -64,7 +52,9 @@ const App = () => {
             <stack.Screen
               name={'Details'}
               component={Details}
-              options={{headerShown: true}}
+              options={{
+                headerShown: false,
+              }}
             />
           </stack.Navigator>
         </NavigationContainer>

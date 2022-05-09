@@ -1,7 +1,9 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {View, Text, Image, StyleSheet} from 'react-native';
+import {View, Text, Image, StyleSheet, Pressable} from 'react-native';
 import {useQuery} from 'react-query';
 import getColorByPokemonType from '../../../utils/GetColorByPokemonType';
+import {Details} from '../../PokemonDetails';
 
 export type PokemonJson = {
   pokemon: {
@@ -13,34 +15,49 @@ export type PokemonJson = {
 const PokemonShow: React.FC<PokemonJson> = ({pokemon: {name, url}}) => {
   const urlPart = url.split('/');
   const index = urlPart[url.split('/').length - 2];
-
   const pokemonImg =
     'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/' +
     index +
     '.png';
-
   const {data, isLoading} = useQuery(index, fetchPoke);
 
   if (isLoading) {
-    return <Text>Loading...</Text>;
+    return (
+      <View style={styles.card}>
+        <Card />
+      </View>
+    );
   }
 
+  const nav = useNavigation();
   return (
-    <View style={styles.card}>
-      <Image style={styles.image} source={{uri: pokemonImg}} />
-      <View
-        style={Object.assign({}, styles.container, {
-          backgroundColor: getColorByPokemonType(data[0].type.name),
-        })}>
-        <View style={styles.textContainer}>
-          <Text style={styles.text}>{name}</Text>
-        </View>
+    <View>
+      <Pressable
+        style={styles.card}
+        onPress={() => {
+          nav.navigate('Details', {url: url});
+        }}>
+        <Image style={styles.image} source={{uri: pokemonImg}} />
+        <Card name={name} type={data[0].type.name} />
+      </Pressable>
+    </View>
+  );
+};
+
+const Card = ({name = 'Loading...', type = 'normal'}) => {
+  return (
+    <View
+      style={Object.assign({}, styles.container, {
+        backgroundColor: getColorByPokemonType(type),
+      })}>
+      <View style={styles.textContainer}>
+        <Text style={styles.text}>{name}</Text>
       </View>
     </View>
   );
 };
 
-const fetchPoke = async data => {
+const fetchPoke = async (data: {queryKey: [string]}) => {
   const request = await fetch(
     'https://pokeapi.co/api/v2/pokemon/' + data.queryKey + '/',
   );
