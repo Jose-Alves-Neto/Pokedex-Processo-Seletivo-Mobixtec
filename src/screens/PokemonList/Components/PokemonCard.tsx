@@ -10,23 +10,31 @@ export type PokemonJson = {
   pokemon: {
     name: string;
     url: string;
+    slot: number;
   };
 };
 
-const PokemonShow: React.FC<PokemonJson> = ({pokemon: {name, url}}) => {
+type nav = {
+  navigate: (arg0: string, arg1: {url: string}) => void;
+};
+
+const PokemonShow: React.FC<PokemonJson> = ({
+  pokemon: {name, url, slot = 0},
+}) => {
+  const nav = useNavigation<nav>();
   const urlPart = url.split('/');
   const index = urlPart[url.split('/').length - 2];
+  const {data, isLoading} = useQuery(index, fetchPoke);
   const pokemonImg =
     'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/' +
     index +
     '.png';
-  const {data, isLoading} = useQuery(index, fetchPoke);
-  const nav = useNavigation();
+
   if (isLoading) {
     return (
       <View style={styles.card}>
-        <Image style={styles.image} source={ditto} />
         <Card />
+        <Image style={styles.image} source={ditto} />
       </View>
     );
   }

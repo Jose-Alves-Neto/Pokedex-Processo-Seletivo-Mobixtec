@@ -18,9 +18,10 @@ export const TypesDisplay: React.FC<Props> = ({types}) => {
         <LinearGradient
           useAngle={true}
           angle={55}
+          key={type.type.name}
           colors={getColorByPokemonType(type.type.name)}
           style={[styles.typeContainer]}>
-          <View key={type.type.name}>
+          <View>
             <Text style={styles.typeText}>{type.type.name}</Text>
           </View>
         </LinearGradient>

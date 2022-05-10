@@ -18,3 +18,25 @@ export const POKEMON_TYPE_COLORS = {
   dark: ['#705848', '#715148'],
   fairy: ['#EE99AC', '#EC12cd'],
 } as const;
+
+export const POKEMON_TYPES = {
+  all: '0',
+  normal: '1',
+  fighting: '2',
+  flying: '3',
+  poison: '4',
+  ground: '5',
+  rock: '6',
+  bug: '7',
+  ghost: '8',
+  steel: '9',
+  fire: '10',
+  water: '11',
+  grass: '12',
+  electric: '13',
+  psychic: '14',
+  ice: '15',
+  dragon: '16',
+  dark: '17',
+  fairy: '18',
+} as const;
