@@ -88,6 +88,7 @@ const styles = StyleSheet.create({
     top: -5,
   },
   container: {
+    flex: 1,
     width: 148,
     height: 96,
     borderRadius: 20,

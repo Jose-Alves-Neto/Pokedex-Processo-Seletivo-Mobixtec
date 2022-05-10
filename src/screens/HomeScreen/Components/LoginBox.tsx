@@ -33,13 +33,13 @@ export const LoginBox: React.FC<Props> = ({navigation}: Props) => {
         }),
       });
       const data = await res.json();
-      AsyncStorage.setItem('token', JSON.stringify(data));
+      await AsyncStorage.setItem('token', JSON.stringify(data));
       setToken(data);
       return data;
     },
   );
 
-  if (!mutation.isLoading && token) {
+  if (!mutation.isLoading && token.token) {
     navigation.navigate('PokemonList');
   }
 
@@ -90,8 +90,9 @@ export const LoginBox: React.FC<Props> = ({navigation}: Props) => {
 
 const isLoggedIn = async (navigation: {navigate: (arg0: string) => void}) => {
   let token = await AsyncStorage.getItem('token');
-  token = JSON.parse(token || '{}');
-  if (token) {
+  token = JSON.parse(token);
+  console.log(token.error);
+  if (token && !token.error) {
     navigation.navigate('PokemonList');
   }
 };

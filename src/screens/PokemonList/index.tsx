@@ -143,6 +143,8 @@ const styles = StyleSheet.create({
     justifyContent: 'space-evenly',
   },
   list: {
+    flex: 1,
+    flexWrap: 'wrap',
     paddingLeft: 40,
     paddingRight: 40,
     paddingBottom: 20,
