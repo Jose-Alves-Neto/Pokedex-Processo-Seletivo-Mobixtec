@@ -4,7 +4,6 @@ import eye from 'Processo/assets/icons/eye.png';
 import {Button, TextInput} from 'react-native-paper';
 import {useMutation} from 'react-query';
 import AsyncStorage from '@react-native-community/async-storage';
-import {useNavigation} from '@react-navigation/native';
 
 interface Props {
   navigation: {navigate: (arg0: string) => void};
@@ -33,15 +32,10 @@ export const LoginBox: React.FC<Props> = ({navigation}: Props) => {
         }),
       });
       const data = await res.json();
-      await AsyncStorage.setItem('token', JSON.stringify(data));
-      setToken(data);
+      storeToken(navigation, data.token);
       return data;
     },
   );
-
-  if (!mutation.isLoading && token.token) {
-    navigation.navigate('PokemonList');
-  }
 
   return (
     <View style={styles.loginBox}>
@@ -88,12 +82,28 @@ export const LoginBox: React.FC<Props> = ({navigation}: Props) => {
   );
 };
 
-const isLoggedIn = async (navigation: {navigate: (arg0: string) => void}) => {
-  let token = await AsyncStorage.getItem('token');
-  token = JSON.parse(token);
-  console.log(token.error);
-  if (token && !token.error) {
-    navigation.navigate('PokemonList');
+const storeToken = async (
+  navigation: {navigate: (arg0: string) => void},
+  token: string,
+) => {
+  try {
+    await AsyncStorage.setItem('token', JSON.stringify(token));
+    isLoggedIn(navigation);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const isLoggedIn = async (
+  navigation: {navigate: (arg0: string) => void} | undefined,
+) => {
+  try {
+    let token = await AsyncStorage.getItem('token');
+    if (token) {
+      navigation.navigate('PokemonList');
+    }
+  } catch (error) {
+    console.log(error);
   }
 };
 
